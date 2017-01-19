@@ -51,7 +51,8 @@ class Translator():
         if wordcounter > 1: #deve essere più di due parole
             a = a/wordcounter
             v = v/wordcounter
-            with open("outputtweets.txt","a") as out:
+            '''
+            with open("outputtweets.txt","a") as out: #debug
                 out.write(str(a))
                 out.write('\n')
                 out.write(str(v))
@@ -61,6 +62,7 @@ class Translator():
                 out.write(sentence)
                 out.write('\n')
                 out.write('\n') 
+            '''
         else:
             a = 0.0
             v = 0.0

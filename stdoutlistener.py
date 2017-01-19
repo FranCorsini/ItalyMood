@@ -32,7 +32,8 @@ class StdOutListener(StreamListener):
                 self.counter = self.counter + 1
                 self.atot = self.atot + a
                 self.vtot = self.vtot + v
-            if self.counter >= 100: #quando ottengo 100 tweets allora calcolo media
+            if self.counter >= 5: #quando ottengo 100 tweets allora calcolo media
+                print('uno') #debug
                 a,v = self.getResults()
                 self.alla.append(a)
                 self.allv.append(v)
@@ -41,13 +42,15 @@ class StdOutListener(StreamListener):
                 self.counter = 0
                 self.booleanWriter = 1 #almeno scrivo (usato fuori lock) per debug
                 now = datetime.now()
-                if mins_between(self.lastTime,now) >= 60: #se sono passati almeno 60 mins allora calcolo e cambio colore
+                if self.mins_between(self.lastTime,now) >= 2: #se sono passati almeno 60 mins allora calcolo e cambio colore
+                    print('due') #debug
                     self.lastTime = now
-                    color = calculateColour(self.alla,self.allv)
+                    color = self.calculateColour(self,self.alla,self.allv)
                     slef.alla[:] = []
                     self.allv[:] = []
         #only for debug
         print(self.counter) #debug
+        '''
         if self.booleanWriter: #solo per debug
             with open("output.txt","a") as out: 
                 out.write(str(datetime.now()))
@@ -57,10 +60,11 @@ class StdOutListener(StreamListener):
                 out.write(str(v))
                 out.write('\n')
             self.booleanWriter = 0
-
+        '''
         return True
 
-    def calculateColor(a,v): #a e v sono liste delle medie di ogni 100 tweets
+    def calculateColor(self,a,v): #a e v sono liste delle medie di ogni 100 tweets
+        print('calculate')
         size = len(a)
         totA = 0.0
         totV = 0.0
@@ -71,13 +75,17 @@ class StdOutListener(StreamListener):
         totA = totA / size
         totV = totV / size    
     #TODO make the colour here 
-    	color = 'green' #debug color
+        print('colorset')
+    	self.color = 'green' #debug color
 
-    def getColor():
+    def getColor(self):
     	return self.color
 
-    def mins_between(d1, d2):
-        return abs((d2 - d1).minutes)
+    def mins_between(self,d1, d2):
+        print('difference') #debug
+        print(abs((d2 - d1).days * 24 * 60))
+        print('yea')
+        return abs((d2 - d1).days * 24 * 60)
 
     def on_error(self, status):
         print('on_error\n')

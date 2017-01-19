@@ -1,23 +1,21 @@
 from threading import Thread
 from flask import Flask
-from flask_classy import FlaskView
 app = Flask(__name__)
 
 
-class serverApp(Thread,FlaskView):
-	route_base = "/"
+class serverApp(Thread):
 
-	def color(self):
-		return self.tweetListener.getColor()
+	#@app.route('/color')
+	def api_color():
+		global tweetListener
+		return tweetListener.getColor()
+	app.add_url_rule('/api_color',view_func = api_color)
 
 	def run(self):
 		app.run()
 
 	def __init__(self, listener):
+		global tweetListener
 		Thread.__init__(self)
-		self.tweetListener = listener
-
-serverApp.register(app)
-
-
+		tweetListener = listener
 
