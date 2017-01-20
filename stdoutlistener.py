@@ -8,6 +8,7 @@ from tweepy.streaming import StreamListener
 
 
 from translator import Translator
+from color import getColor
 
 
 class StdOutListener(StreamListener):
@@ -32,7 +33,7 @@ class StdOutListener(StreamListener):
                 self.counter = self.counter + 1
                 self.atot = self.atot + a
                 self.vtot = self.vtot + v
-            if self.counter >= 5: #quando ottengo 100 tweets allora calcolo media
+            if self.counter >= 5: #quando ottengo 50 tweets allora calcolo media
                 a,v = self.getResults()
                 self.alla.append(a)
                 self.allv.append(v)
@@ -41,11 +42,8 @@ class StdOutListener(StreamListener):
                 self.counter = 0
                 self.booleanWriter = 1 #almeno scrivo (usato fuori lock) per debug
                 now = datetime.now()
-                if self.mins_between(self.lastTime,now) >= 1: #se sono passati almeno 60 mins allora calcolo e cambio colore
+                if self.mins_between(self.lastTime,now) >= 15: #se sono passati almeno 15 mins allora calcolo e cambio colore
                     self.lastTime = now
-                    print('HERE')
-                    print(self.alla)
-                    print(self.allv)
                     color = self.calculateColor(self.alla,self.allv)
                     self.alla[:] = []
                     self.allv[:] = []
@@ -74,8 +72,7 @@ class StdOutListener(StreamListener):
             totV = elem + totV
         totA = totA / size
         totV = totV / size    
-    #TODO make the colour here 
-    	self.color = 'green' #debug color
+    	self.color = getColor(totV,totA)
 
     def getColor(self):
     	return self.color

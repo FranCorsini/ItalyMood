@@ -1,7 +1,7 @@
 
 
 #tutte i points sono da considerarsi da sinistra a destra (valence) e basso alto(arousal)
-
+#punti per la tabella
 VALENCE_MIN = 5.45
 VALENCE_MID_MIN = 5.5
 VALENCE_MIN_WHITE = 5.54
@@ -18,105 +18,143 @@ AROUSAL_MAX_WHITE = 4.11
 AROUSAL_MID_MAX = 4.15
 AROUSAL_MAX = 4.2
 
+WHITE_VALENCE_MIN = 5.54
+WHITE_VALENCE_MAX = 5.56
+WHITE_AROUSAL_MIN = 4.09
+WHITE_AROUSAL_MAX = 4.11
+
+
+#colori
+#per vedere a quale colore corrisponde in tabella guardare file colortable.txt
+ONE = [0,0,157]
+TWO = [0,0,145]
+THREE = [153,0,204]
+FOUR = [153,0,0]
+FIVE = [0,101,51]
+SIX = [0,0,204]
+SEVEN = [0,51,255]
+EIGHT = [153,102,255]
+NINE = [255,0,0]
+TEN = [153,51,255]
+ELEVEN = [255,204,255]
+TWELVE = [153,153,255]
+THIRTEEN = [255,78,217]
+FOURTEEN = [255,153,153]
+FIFTEEN = [51,153,204]
+SIXTEEN = [153,255,255]
+SEVENTEEN = [205,255,0]
+EIGHTEEN = [255,204,51]
+NINETEEN = [51,204,255]
+TWELVE = [255,102,51]
+TWENTYONE = [51,204,51]
+TWENTYTWO = [102,255,51]
+TWENTYTHREE = [255,255,0]
+TWENTYFOUR = [255,153,51]
+TWENTYFIVE = [102,153,51]
+TWENTYSIX = [102,204,51]
+TWENTYSEVEN = [255,255,172]
+TWENTYEIGHT = [255,51,102]
+
+WHITE = [255,255,255]
 
 
 def getColor(v,a):
 	
+	color = [0,0,0]
+
 	if v <= VALENCE_MIN:
 		if a <= AROUSAL_MIN:
-			#1
+			color = ONE
 		elif a <= AROUSAL_MID and a > AROUSAL_MIN:
-			#2
+			color = TWO
 		elif a <= AROUSAL_MAX and a > AROUSAL_MID:
-			#3
+			color = THREE
 		elif a > AROUSAL_MAX:
-			#4
+			color = FOUR
 	elif v <= VALENCE_MID_MIN and v > VALENCE_MIN:
 		if a <= AROUSAL_MIN:
-			#5
+			color = FIVE
 		elif a <= AROUSAL_MID_MIN and a > AROUSAL_MIN:
-			#6
+			color = SIX
 		elif a <= AROUSAL_MID and a > AROUSAL_MID_MIN:
-			#7
+			color = SEVEN
 		elif a <= AROUSAL_MID_MAX and a > AROUSAL_MID:
-			#8
+			color = EIGHT
 		elif a <= AROUSAL_MAX and a > AROUSAL_MID_MAX:
-			#9
+			color = NINE
 		elif a > AROUSAL_MAX:
-			#10
+			color = TEN
 	elif v <= VALENCE_MID and v > VALENCE_MID_MIN:
 		if a <= AROUSAL_MIN:
-			#5
+			color = FIVE
 		elif a <= AROUSAL_MID_MIN and a > AROUSAL_MIN:
-			#11
+			color = ELEVEN
 		elif a <= AROUSAL_MID and a > AROUSAL_MID_MIN:
-			#whitedown
-			#12
+			if v <= WHITE_VALENCE_MAX and WHITE_VALENCE_MIN and a <= WHITE_AROUSAL_MAX and a > WHITE_AROUSAL_MIN:
+				color = WHITE
+			else:
+				color = TWELVE
 		elif a <= AROUSAL_MID_MAX and a > AROUSAL_MID:
-			#whiteup
-			#13
+			if v <= WHITE_VALENCE_MAX and WHITE_VALENCE_MIN and a <= WHITE_AROUSAL_MAX and a > WHITE_AROUSAL_MIN:
+				color = WHITE
+			else:
+				color = THIRTEEN
 		elif a <= AROUSAL_MAX and a > AROUSAL_MID_MAX:
-			#14
+			color = FOURTEEN
 		elif a > AROUSAL_MAX:
-			#10
+			color = TEN
 	elif v <= VALENCE_MID_MAX and v > VALENCE_MID:
 		if a <= AROUSAL_MIN:
-			#15
+			color = FIFTEEN
 		elif a <= AROUSAL_MID_MIN and a > AROUSAL_MIN:
-			#16
+			color = SIXTEEN
 		elif a <= AROUSAL_MID and a > AROUSAL_MID_MIN:
-			#whitedown
-			#17
+			if v <= WHITE_VALENCE_MAX and WHITE_VALENCE_MIN and a <= WHITE_AROUSAL_MAX and a > WHITE_AROUSAL_MIN:
+				color = WHITE
+			else:
+				color = SEVENTEEN
 		elif a <= AROUSAL_MID_MAX and a > AROUSAL_MID:
-			#whiteup
-			#18
+			if v <= WHITE_VALENCE_MAX and WHITE_VALENCE_MIN and a <= WHITE_AROUSAL_MAX and a > WHITE_AROUSAL_MIN:
+				color = WHITE
+			else:
+				color = EIGHTEEN
 		elif a <= AROUSAL_MAX and a > AROUSAL_MID_MAX:
-			#19
+			color = NINETEEN
 		elif a > AROUSAL_MAX:
-			#20
+			color = TWENTY
 	elif v <= VALENCE_MAX and v > VALENCE_MID_MAX:
 		if a <= AROUSAL_MIN:
-			#15
+			color = FIFTEEN
 		elif a <= AROUSAL_MID_MIN and a > AROUSAL_MIN:
-			#21
+			color = TWENTYONE
 		elif a <= AROUSAL_MID and a > AROUSAL_MID_MIN:
-			#22
+			color = TWENTYTWO
 		elif a <= AROUSAL_MID_MAX and a > AROUSAL_MID:
-			#23
+			color = TWENTYTHREE
 		elif a <= AROUSAL_MAX and a > AROUSAL_MID_MAX:
-			#24
+			color = TWENTYFOUR
 		elif a > AROUSAL_MAX:
-			#20
+			color = TWENTY
 	elif v > VALENCE_MAX:
 		if a <= AROUSAL_MIN:
-			#25
+			color = TWENTYFIVE
 		elif a <= AROUSAL_MID and a > AROUSAL_MIN:
-			#26
+			color = TWENTYSIX
 		elif a <= AROUSAL_MAX and a > AROUSAL_MID:
-			#27
+			color = TWENTYSEVEN
 		elif a > AROUSAL_MAX:
-			#28
+			color = TWENTYEIGHT
+
+	#debug
+	with open("outputcolor.txt","a") as out: 
+	    out.write(str(datetime.now()))
+	    out.write('\n')
+	    out.write(str(v))
+	    out.write('\n')
+	    out.write(str(a))
+	    out.write('\n')
+	    out.write(str(color))
+
+	return color
 
 
-
-|-|-----|-----|-----------|--|
-|4|     10	  |		20	  |28|
-|-|-----|-----|-----|-----|--|
-| |     |	  |		|	  |  |
-| |  9  |  14 |  19 |  24 |  |
-| |     |	  |		|	  |  |		
-|3|-----|-----|-----|-----|27|
-| |		|	  |		|	  |  |
-| |	 8	| 13  |  18	|  23 |  |		
-| |		|	  |		|	  |	 |			
-|-|-----|-----|-----|-----|--|		
-| |		|	  |		|	  |	 |	
-| |	 7	| 12  |  17 |  22 |	 |				
-| |		|	  |		|	  |	 |	
-|2|-----|-----|-----|-----|26|	
-| |		|	  |		|	  |	 |		
-| |	 6	| 11  |  16	|  21 |	 |					
-| |		|	  |		|	  |	 |		
-|-|-----|-----|-----|-----|--|
-|1|	 	5	  |		15	  |25|			
-|-|-----|-----|-----------|--|
