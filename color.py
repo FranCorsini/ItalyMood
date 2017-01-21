@@ -145,16 +145,6 @@ def getColor(v,a):
 		elif a > AROUSAL_MAX:
 			color = TWENTYEIGHT
 
-	#debug
-	with open("outputcolor.txt","a") as out: 
-	    out.write(str(datetime.now()))
-	    out.write('\n')
-	    out.write(str(v))
-	    out.write('\n')
-	    out.write(str(a))
-	    out.write('\n')
-	    out.write(str(color))
-
 	return color
 
 

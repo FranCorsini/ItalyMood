@@ -8,7 +8,8 @@ class serverApp(Thread):
 	#@app.route('/color')
 	def api_color():
 		global tweetListener
-		return tweetListener.getColor()
+		color = tweetListener.getColor()
+		return str(color)
 	app.add_url_rule('/api_color',view_func = api_color)
 
 	def run(self):

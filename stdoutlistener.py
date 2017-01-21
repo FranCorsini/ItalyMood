@@ -33,7 +33,7 @@ class StdOutListener(StreamListener):
                 self.counter = self.counter + 1
                 self.atot = self.atot + a
                 self.vtot = self.vtot + v
-            if self.counter >= 5: #quando ottengo 50 tweets allora calcolo media
+            if self.counter >= 50: #quando ottengo 50 tweets allora calcolo media
                 a,v = self.getResults()
                 self.alla.append(a)
                 self.allv.append(v)
@@ -44,11 +44,12 @@ class StdOutListener(StreamListener):
                 now = datetime.now()
                 if self.mins_between(self.lastTime,now) >= 15: #se sono passati almeno 15 mins allora calcolo e cambio colore
                     self.lastTime = now
-                    color = self.calculateColor(self.alla,self.allv)
+                    self.color = self.calculateColor(self.alla,self.allv)
+                    print(self.color) #debug
                     self.alla[:] = []
                     self.allv[:] = []
         #only for debug
-        print(self.counter) #debug
+        #print(self.counter) #debug
         '''
         if self.booleanWriter: #solo per debug
             with open("output.txt","a") as out: 
@@ -72,7 +73,7 @@ class StdOutListener(StreamListener):
             totV = elem + totV
         totA = totA / size
         totV = totV / size    
-    	self.color = getColor(totV,totA)
+    	return getColor(totV,totA)
 
     def getColor(self):
     	return self.color
