@@ -22,7 +22,7 @@ class StdOutListener(StreamListener):
     booleanWriter = 0 #variabile lock
     lastTime = datetime.now() #time of start
     lock = threading.Lock() 
-    color = 'blue' #this is the defaoult one
+    color = [255,255,255] #this is the defaoult one
 
     def on_data(self, datastream):
         data = json.loads(datastream)
@@ -34,6 +34,7 @@ class StdOutListener(StreamListener):
                 self.atot = self.atot + a
                 self.vtot = self.vtot + v
             if self.counter >= 50: #quando ottengo 50 tweets allora calcolo media
+                print('got 50')
                 a,v = self.getResults()
                 self.alla.append(a)
                 self.allv.append(v)
@@ -42,7 +43,7 @@ class StdOutListener(StreamListener):
                 self.counter = 0
                 self.booleanWriter = 1 #almeno scrivo (usato fuori lock) per debug
                 now = datetime.now()
-                if self.mins_between(self.lastTime,now) >= 15: #se sono passati almeno 15 mins allora calcolo e cambio colore
+                if self.mins_between(self.lastTime,now) >= 5: #se sono passati almeno 15 mins allora calcolo e cambio colore TODO change
                     self.lastTime = now
                     self.color = self.calculateColor(self.alla,self.allv)
                     print(self.color) #debug
@@ -77,6 +78,9 @@ class StdOutListener(StreamListener):
 
     def getColor(self):
     	return self.color
+
+    def setColor(self,col):
+        self.color = col
 
     def mins_between(self,d1, d2):
         return abs((d2 - d1).total_seconds() / 60)
